@@ -1,0 +1,44 @@
+1. install python packages
+  - opencv
+  - synth
+
+2. basic synth manipulation
+  - vary pitch with time / changing variable
+  - vary modulation with time / changing variable
+
+3. basic opencv object detection
+  - big objects / fast recognition
+    - assign position / center coordinate
+    - export numerical value
+      - try drawing on screen
+  - idea of tracking unique objects over time?
+
+4. opencv -> synth (one object)
+  - take value of 1 object position -> control synth
+    - probably just do biggest object in view?
+
+5. opencv -> synth (multiple object)
+  - calibrate termination criteria for multiple objects
+  - each one controls a separate synth
+    - use multi-threading
+
+6. get feedback
+  - dxarts profs
+  - students (post on ig?)
+
+7. get a demo together
+  - look into visuals
+    - idea: visualization based on number of sounds, pitches, harmony
+      - kind of psychedelic theme
+      - starting in center of each wall in the room, expanding outwards
+      - 1 synth -> circular
+      - 2 synth -> line?
+      - 3 synth -> triangle, and so on
+      - stability of lines, colors, or volume can depend on harmony
+    - maybe see if someone else wants to work on that part
+
+
+8. propose to art people / find a space for an exhibit
+
+9. promo?
+  - animation of eyes opening and closing, inside eye is audio visualization stuff?
