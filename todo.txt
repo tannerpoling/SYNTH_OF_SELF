@@ -1,5 +1,5 @@
 1. install python packages
-  - opencv
+  - DONE opencv
   - synth
 
 2. basic synth manipulation
@@ -8,6 +8,7 @@
 
 3. basic opencv object detection
   - big objects / fast recognition
+    - YOLO?
     - assign position / center coordinate
     - export numerical value
       - try drawing on screen
