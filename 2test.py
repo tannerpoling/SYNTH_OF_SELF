@@ -27,7 +27,7 @@ res = cv2.bitwise_and(frame, frame, mask = mask)
 cv2.imshow("masked image", res)
 cv2.waitKey(0)
 
-res = cv2.dilate(res, None, iterations = 3)
+res = cv2.dilate(res, None, iterations = 4)
 cv2.imshow("dilated image", res)
 cv2.waitKey(0)
 
@@ -40,7 +40,20 @@ cv2.imshow("binary image", thresh_img)
 cv2.waitKey(0)
 
 # Detect blobs.
-detector = cv2.SimpleBlobDetector_create()
+
+params = cv2.SimpleBlobDetector_Params()
+params.minThreshold = 0
+params.maxThreshold = 256
+
+params.filterByArea = True
+# params.minArea = 50
+params.minArea = 1000
+
+params.filterByCircularity = False
+params.filterByConvexity = False
+params.filterByInertia = False
+
+detector = cv2.SimpleBlobDetector_create(params)
 keypoints = detector.detect(thresh_img)
 
 # Draw detected blobs as red circles.
@@ -50,3 +63,14 @@ im_with_keypoints = cv2.drawKeypoints(im, keypoints, np.array([]), (0,0,255), cv
 # Show keypoints
 cv2.imshow("Keypoints", im_with_keypoints)
 cv2.waitKey(0)
+
+# Print keypoint centers
+for keypoint in keypoints:
+    x = keypoint.pt[0]
+    y = keypoint.pt[1]
+    s = keypoint.size
+    print("BLOB FOUND:")
+    print("CENTER X = " + str(x))
+    print("CENTER Y = " + str(y))
+    print("SIZE = " + str(s))
+    print("")

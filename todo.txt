@@ -9,6 +9,7 @@
 3. basic opencv object detection
   - big objects / fast recognition
     - YOLO?
+      - wayyyyy over kill
     - assign position / center coordinate
     - export numerical value
       - try drawing on screen
