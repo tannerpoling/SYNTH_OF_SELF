@@ -14,6 +14,10 @@
     - export numerical value
       - try drawing on screen
   - idea of tracking unique objects over time?
+  - maybe try adapting calibration work from APL
+    - have a script that runs, adjusts parameters to get "best" detection,
+      then saves that to some sort of config file that can be loaded in
+      and run on the original video
 
 4. opencv -> synth (one object)
   - take value of 1 object position -> control synth
