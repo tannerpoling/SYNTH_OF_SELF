@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import cv2
-import numpy as np;
+import numpy as np
 
 # making things a little more organized for future work
 # some goals:
@@ -61,7 +61,7 @@ def detectFrame(detector, im):
     # cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS ensures the size of the circle corresponds to the size of blob
     im_with_keypoints = cv2.drawKeypoints(im, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
-    return im_with_keypoints
+    return im_with_keypoints, keypoints
 
 
 if __name__ == "__main__":
@@ -77,12 +77,12 @@ if __name__ == "__main__":
         ret, im = cap.read()
         if ret == True:
             im = processImg(im)
-            im_with_keypoints = detectFrame(detector, im)
+            im_with_keypoints, keypoints = detectFrame(detector, im)
             cv2.imshow("Keypoints", im_with_keypoints)
             cv2.waitKey(1)
 
             if cv2.waitKey(25) & 0xFF == ord('q'):
                 break
 
-cap.release()
-cv2.destroyAllWindows()
+    cap.release()
+    cv2.destroyAllWindows()

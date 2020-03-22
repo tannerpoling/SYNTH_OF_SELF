@@ -22,6 +22,9 @@
 4. opencv -> synth (one object)
   - take value of 1 object position -> control synth
     - probably just do biggest object in view?
+  - vidmodule detects, returns keypoints. needs to be passed to synthmodule
+    - synthmodule then checks number of current synths vs number of blobs before starting any new synths?
+    - need some sort of update method in synthmodule that runs every frame, updates pitch and mod of each synth
 
 5. opencv -> synth (multiple object)
   - calibrate termination criteria for multiple objects
