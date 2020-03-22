@@ -29,8 +29,23 @@ def finalize(zeros_dur):
 def dB2magnitude(logpower):
   return 10 ** (logpower / 20)
 
+def playTone2(duration):
+    th2 = player.play(sinusoid(1e3 * Hz * 2) * refgain)
+    time.sleep(duration)
+    th2.stop()
+
+
+def changingFreq():
+    freq = 1e3 * Hz
+    while True:
+        time.sleep(0.1)
+        freq = freq + 100
+
+
 s, Hz = sHz(rate)
 freq2dB = phon2dB.iso226(intensity)
+
+freq = 1e3 * Hz
 
 freq = thub(2 ** line(chirp_duration * s, log2(fstart), log2(fend)), 2)
 gain = thub(dB2magnitude(freq2dB(freq)), 2)
@@ -45,36 +60,14 @@ sgain = chain(gstart, gain / maxgain, gend)
 
 snd = sinusoid(sfreq * Hz) * sgain
 
-freq = 1e3 * Hz * 2
-
-def changingFreq():
-    global freq
-    while True:
-        time.sleep(0.1)
-        freq = freq + 200
-        # yield baseFreq
-
-def playTone2(duration):
-    freqThread = threading.Thread(target = changingFreq, args = ())
-    freqThread.start()
-    # th2 = player.play(sinusoid(freq) * refgain)
-    freq = 1e3 * Hz * 0.5
-    th2 = player.play(freq)
-    time.sleep(0.5)
-    th2.stop()
-
-
 with AudioIO(True) as player:
   refgain = dB2magnitude(freq2dB(1e3)) / maxgain
-  th = player.play(sinusoid(1e3 * Hz) * refgain)
+  # th = player.play(sinusoid(1e3 * Hz) * refgain)
+  th = player.play(sinusoid(freq) * refgain)
+
   input("Playing the 1 kHz reference tone. You should calibrate the output "
         "to get {0} dB SPL and press enter to continue.".format(intensity))
-  secondSynth = threading.Thread(target = playTone2, args = (3,))
-  secondSynth.start()
-  time.sleep(2)
+  playTone2(2)
   th.stop()
-  # th = player.play(sinusoid(1e3 * 2 * Hz) * refgain)
-  # time.sleep(2)
-  # th.stop()
   print("Playing the chirp!")
   player.play(chain(snd, finalize(.5 * s)), rate=rate)

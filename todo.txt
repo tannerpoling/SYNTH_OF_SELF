@@ -1,9 +1,12 @@
 1. install python packages
   - DONE opencv
-  - synth
+  - DONE synth
 
 2. basic synth manipulation
+  - DONE multithreading for multiple synths
   - vary pitch with time / changing variable
+    - make an iterable that only returns one variable
+    - have this variable be updated by opencv processing a frame 
   - vary modulation with time / changing variable
 
 3. basic opencv object detection
