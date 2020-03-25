@@ -3,4 +3,4 @@
 The basic premise of this project is to represent the physical location and movement of people via sound,
 exploring harmony through spatial arrangement.
 
-More details to come once the technical side of things is fleshed out.
+More details to come once the technical side of things is fleshed out. Right now I'm still getting my head wrapped around how the synth works.
