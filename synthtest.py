@@ -2,6 +2,7 @@
 from audiolazy import *
 import time
 import threading
+import synthIter as SI
 
 
 if PYTHON2:
@@ -22,7 +23,7 @@ def finalize(zeros_dur):
   print("Finished!")
   for el in zeros(zeros_dur):
     # yield allows you to return a SEQUENCE of values rather than a singular return.
-    # used in generator functions: these functions can store state data and use it
+    # used in generator functions: these functions caSynthIteratorn store state data and use it
     # in subsequent calls! pretty cool
     yield el
 
@@ -69,12 +70,93 @@ with AudioIO(True) as player:
   th = player.play(sinusoid(1e3 * Hz) * refgain)
   input("Playing the 1 kHz reference tone. You should calibrate the output "
         "to get {0} dB SPL and press enter to continue.".format(intensity))
-  secondSynth = threading.Thread(target = playTone2, args = (3,))
-  secondSynth.start()
+  # secondSynth = threading.Thread(target = playTone2, args = (3,))
+  # secondSynth.start()
   time.sleep(2)
   th.stop()
-  # th = player.play(sinusoid(1e3 * 2 * Hz) * refgain)
-  # time.sleep(2)
-  # th.stop()
-  print("Playing the chirp!")
-  player.play(chain(snd, finalize(.5 * s)), rate=rate)
+
+  print("ATTEMPT SYNTH TEST")
+  # synIter = SI.SynthIter(0.15)
+  # test = iter(synIter)
+  # th2 = player.play(test * refgain)
+  cs = ControlStream(0)
+  data = sinusoid(1e3 * Hz * 2) * refgain
+  th2 = player.play(data)
+  time.sleep(1)
+  # cs.value = 1e3 * Hz * 0.5
+  time.sleep(1)
+  th2.stop()
+  #
+  # print("Playing the chirp!")
+  #
+  # print("th player value:")
+  # print(str(1e3 * Hz))
+  #
+  # print("refgain:")
+  # print(str(refgain))
+  #
+  # print("Hz:")
+  # print(str(Hz))
+  #
+  # print("chirp / snd values:")
+  # print(str(snd))
+  #
+  # print("unclick_dur values:")
+  # print(str(unclick_dur))
+
+
+
+
+  #                                 DISSECTING CODE
+
+
+  # snd = sinusoid(sfreq * Hz) * sgain
+    # sfreq = chain(repeat(fstart, unclick_dur), freq, repeat(fend, unclick_dur))
+    # sgain = chain(gstart, gain / maxgain, gend)
+        # gstart = line(unclick_dur, 0, dB2magnitude(freq2dB(fstart)) / maxgain)
+        # LINE: linearly generate values (num values, start, end)
+            # unclick_dur = rint((total_duration - chirp_duration) * s / 2)
+                # RINT = round to nearest int
+            # fstart, fend = 16, 20000 # Hz
+                # maxgain = max(gain)
+                    # gain = thub(dB2magnitude(freq2dB(freq)), 2)
+                        # THUB: make a StreamTeeHub. still dont know what this is
+                        # freq = thub(2 ** line(chirp_duration * s, log2(fstart), log2(fend)), 2)
+
+    # s, Hz = sHz(rate)
+
+
+  # GSTART INFO
+  print(str(gstart))
+  count = 0
+  for val in gstart:
+      count = count + 1
+      print(str(val))
+
+  print("num values in gstart: " + str(count))
+  print("unclick_dur: " + str(unclick_dur))
+  print("end value: " + str(dB2magnitude(freq2dB(fstart)) / maxgain))
+  print("s: " + str(s))
+  print("Hz: " + str(Hz))
+
+
+  # gain = thub(dB2magnitude(freq2dB(freq)), 2)
+  # maxgain = max(gain)
+  # freq = thub(2 ** line(chirp_duration * s, log2(fstart), log2(fend)), 2)
+
+  # GAIN INFO
+  print(gain)
+  # count2 = 0
+  # for val2 in gain:
+  #     count2 = count2 + 1
+  #     print(str(val2))
+  # print("num values in gain: " + str(count2))
+
+
+  # print("ending gain values:")
+  # print(str(gend))
+  #
+  # print("ending gain values:")
+  # print(str(gend))
+
+  # player.play(chain(snd, finalize(.5 * s)), rate=rate)
