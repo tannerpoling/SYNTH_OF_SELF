@@ -6,7 +6,11 @@
   - DONE multithreading for multiple synths
   - vary pitch with time / changing variable
     - make an iterable that only returns one variable
-    - have this variable be updated by opencv processing a frame 
+    - have this variable be updated by opencv processing a frame
+    - working on making a varying synth that doesn't pop/click
+      - have a sine wave going for a while, then make a ramp up
+        - have sinusoid(base freq) * some gain [ just do what chirp example does ]
+        - grab current value of gain, use line() to make ramp from there to end value
   - vary modulation with time / changing variable
 
 3. basic opencv object detection
