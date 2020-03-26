@@ -112,6 +112,7 @@ with AudioIO(True) as player:
 
   # snd = sinusoid(sfreq * Hz) * sgain
     # sfreq = chain(repeat(fstart, unclick_dur), freq, repeat(fend, unclick_dur))
+        # REPEAT = repeat(value, num_reps), if no second argument return infinitely
     # sgain = chain(gstart, gain / maxgain, gend)
         # gstart = line(unclick_dur, 0, dB2magnitude(freq2dB(fstart)) / maxgain)
         # LINE: linearly generate values (num values, start, end)
