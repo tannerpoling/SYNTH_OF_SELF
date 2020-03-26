@@ -67,7 +67,7 @@ def playTone2(duration):
 
 with AudioIO(True) as player:
   refgain = dB2magnitude(freq2dB(1e3)) / maxgain
-  th = player.play(sinusoid(1e3 * Hz) * refgain)
+  th = player.play(sinusoid(1e3 * Hz) * refgain * 3)
   input("Playing the 1 kHz reference tone. You should calibrate the output "
         "to get {0} dB SPL and press enter to continue.".format(intensity))
   # secondSynth = threading.Thread(target = playTone2, args = (3,))
@@ -86,16 +86,20 @@ with AudioIO(True) as player:
   #         - 2 second ramp up and down
   #     - sound should go up then down in pitch
   # testgain = 1
-  testgain = ControlStream(1)
+  # testgain = ControlStream(1)
+  testgain = SI.SynthIter(0)
+  teststream = Stream(testgain)
 
-  th2 = player.play(sinusoid(1e3 * Hz * 1.25 * testgain) * refgain * 1.5)
+  refgain = refgain * 12
+  th2 = player.play(sinusoid(1e3 * Hz * 1.25 + teststream) * refgain)
   time.sleep(2)
   print("CHANGING TONE")
   # testgain = chain(line(2 * s, 1, 4), repeat(1.1))
   # testgain = line(2 * s, 1, 4)
-  testgain.value = line(2 * s, 1, 1.5)
-  time.sleep(2)
-
+  # testgain.value = line(2 * s, 1, 1.5)
+  newvalues = line(2 * s, 0, 0.2)
+  testgain.append(newvalues)
+  time.sleep(4)
 
   th2.stop()
   #
