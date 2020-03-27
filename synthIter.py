@@ -1,7 +1,7 @@
 from collections import deque
 
 class SynthIter:
-    # an interator that continually returns a value, which can be updated
+    # an interator that continually returns a value, until given a sequence of values
 
     def __init__(self, initValue = 0.15):
         self.initValue = initValue
@@ -22,6 +22,10 @@ class SynthIter:
     def append(self, values):
         for val in values:
             self.q.append(val)
+
+    def changeValue(self, value):
+        self.q.append(value)
+        self.q.popleft()
 
     def peek(self):
         return self.q[0]

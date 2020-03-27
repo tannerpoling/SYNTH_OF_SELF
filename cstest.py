@@ -74,43 +74,48 @@ with AudioIO(True) as player:
   # time.sleep(2)
   # th.stop()
 
-    print("ATTEMPT SYNTH TEST")
-    minFreq = 225
-    maxFreq = 2000
-    freqIter = SI.SynthIter(minFreq)
-    freqStream = Stream(freqIter)
+  print("ATTEMPT SYNTH TEST")
 
-    maxgain = maxgain / 18
-
-    minFreqGain = dB2magnitude(freq2dB(minFreq)) / maxgain
-    maxFreqGain = dB2magnitude(freq2dB(maxFreq)) / maxgain
-    gainIter = SI.SynthIter(minFreqGain)
-    gainStream = Stream(gainIter)
+  # Desired behavior:
+  #     - play a sinewave at some frequency * some gain
+  #     - wait a little bit, then have the gain ramp up and back down
+  #         - testgain = a stream of 1 initially, then stream in line values
+  #             - inf stream of 1s, then switch to going thru the line, then inf end value
+  #             - need to stop returning 1s
+  #         - 2 second ramp up and down
+  #     - sound should go up then down in pitch
 
 
-    refgain = dB2magnitude(freq2dB(1e3)) / maxgain
-    refgain = refgain * 120
+  minFreq = 225
+  maxFreq = 2000
+  freqStream = ControlStream(minFreq)
 
-    th2 = player.play(sinusoid(freqStream * Hz) * gainStream * 4)
+  maxgain = maxgain / 18
 
-    print("CURRENT GAIN: " + str(gainStream.peek()))
-    print("CURRENT FREQ: " + str(freqStream.peek()))
-    time.sleep(2)
-    print("RAMPING GAIN AND FREQ")
-    # freqIter.changeValue(1000)
-    # gainIter.changeValue(dB2magnitude(freq2dB(freqIter.peek())) / maxgain)
-    # print("NEW GAIN: " + str(gainStream.take(1)))
-    # print("NEW FREQ: " + str(freqStream.take(1)))
-    freqRamp = line(3 * s, freqStream.peek(), 850)
-    gainRamp = line(3 * s, gainStream.peek(), dB2magnitude(freq2dB(850)) / maxgain)
-    print("upper = " + str(dB2magnitude(freq2dB(850)) / maxgain))
-    freqIter.append(freqRamp)
-    gainIter.append(gainRamp)
+  minFreqGain = dB2magnitude(freq2dB(minFreq)) / maxgain
+  maxFreqGain = dB2magnitude(freq2dB(maxFreq)) / maxgain
+  gainStream = ControlStream(minFreqGain)
 
-    time.sleep(4)
-    print("current gain: " + str(gainIter.peek()))
 
-    # time.sleep(4)
-    # print("current gain: " + str(gainIter.peek()))
+  refgain = dB2magnitude(freq2dB(1e3)) / maxgain
+  refgain = refgain * 120
 
-    th2.stop()
+  th2 = player.play(sinusoid(freqStream * Hz) * gainStream * 4)
+
+  print("CURRENT GAIN: " + str(gainStream.take(1)))
+  print("CURRENT FREQ: " + str(freqStream.take(1)))
+  time.sleep(2)
+  print("CHANGING GAIN AND FREQ")
+  freqStream.value = (1000)
+  gainStream.value = (dB2magnitude(freq2dB(freqStream.value)) / maxgain)
+  print("NEW GAIN: " + str(gainStream.take(1)))
+  print("NEW FREQ: " + str(freqStream.take(1)))
+  time.sleep(4)
+  # freqStream.value = (1500)
+  # gainStream.value = (dB2magnitude(freq2dB(freqStream.value)) / maxgain)
+  # time.sleep(0.5)
+  # freqStream.value = (400)
+  # gainStream.value = (dB2magnitude(freq2dB(freqStream.value)) / maxgain)
+  # time.sleep(0.5)
+
+  th2.stop()

@@ -66,51 +66,13 @@ def playTone2(duration):
 
 
 with AudioIO(True) as player:
-  # th = player.play(sinusoid(1e3 * Hz) * refgain * 3)
-  # input("Playing the 1 kHz reference tone. You should calibrate the output "
-  #       "to get {0} dB SPL and press enter to continue.".format(intensity))
-  # # secondSynth = threading.Thread(target = playTone2, args = (3,))
-  # # secondSynth.start()
-  # time.sleep(2)
-  # th.stop()
-
-    print("ATTEMPT SYNTH TEST")
-    minFreq = 225
-    maxFreq = 2000
-    freqIter = SI.SynthIter(minFreq)
-    freqStream = Stream(freqIter)
-
-    maxgain = maxgain / 18
-
-    minFreqGain = dB2magnitude(freq2dB(minFreq)) / maxgain
-    maxFreqGain = dB2magnitude(freq2dB(maxFreq)) / maxgain
-    gainIter = SI.SynthIter(minFreqGain)
-    gainStream = Stream(gainIter)
-
-
-    refgain = dB2magnitude(freq2dB(1e3)) / maxgain
-    refgain = refgain * 120
-
-    th2 = player.play(sinusoid(freqStream * Hz) * gainStream * 4)
-
-    print("CURRENT GAIN: " + str(gainStream.peek()))
-    print("CURRENT FREQ: " + str(freqStream.peek()))
-    time.sleep(2)
-    print("RAMPING GAIN AND FREQ")
-    # freqIter.changeValue(1000)
-    # gainIter.changeValue(dB2magnitude(freq2dB(freqIter.peek())) / maxgain)
-    # print("NEW GAIN: " + str(gainStream.take(1)))
-    # print("NEW FREQ: " + str(freqStream.take(1)))
-    freqRamp = line(3 * s, freqStream.peek(), 850)
-    gainRamp = line(3 * s, gainStream.peek(), dB2magnitude(freq2dB(850)) / maxgain)
-    print("upper = " + str(dB2magnitude(freq2dB(850)) / maxgain))
-    freqIter.append(freqRamp)
-    gainIter.append(gainRamp)
-
-    time.sleep(4)
-    print("current gain: " + str(gainIter.peek()))
-
-    # time.sleep(4)
-    # print("current gain: " + str(gainIter.peek()))
-
-    th2.stop()
+  print("MAX / MIN FREQUENCY TEST")
+  gain = SI.SynthIter(0)
+  gainstream = Stream(gain)
+  refgain = (dB2magnitude(freq2dB(1e3)) / maxgain) * 12
+  refgain = refgain * 10
+  curFreq = (225) * Hz
+  # curFreq = (2000) * Hz
+  th2 = player.play(sinusoid(curFreq + gainstream) * refgain)
+  input("Press enter to end the noise")
+  th2.stop()
