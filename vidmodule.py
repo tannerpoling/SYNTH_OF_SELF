@@ -68,10 +68,14 @@ if __name__ == "__main__":
     detector = getBlobDetect()
 
     # read frames from VideoCapture
-    cap = cv2.VideoCapture("walk1.mp4")
+    cap = cv2.VideoCapture("oneperson.mp4")
 
     if (cap.isOpened() == False):
         print("error opening file")
+    else:
+        if DEBUG:
+            print("width = "  + str(int(cap.get(3))))
+            print("height = " + str(int(cap.get(4))))
 
     while (cap.isOpened()):
         ret, im = cap.read()

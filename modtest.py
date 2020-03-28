@@ -106,14 +106,14 @@ with AudioIO(True) as player:
     refgain = dB2magnitude(freq2dB(1e3)) / maxgain
     refgain = refgain * 120
 
-    th2 = player.play(sinusoid(freqStream * Hz) * (gainStream * 5 * (sinusoid(ampStream) + 1)))
+    th2 = player.play(sinusoid(freqStream * Hz) * (gainStream * 5 * (ampMod + 1)))
 
     print("CURRENT GAIN: " + str(gainStream.peek()))
     print("CURRENT FREQ: " + str(freqStream.peek()))
     time.sleep(4)
 
     print("BEGIN AMPLITUDE MODULATION")
-    ampIter.changeValue(0.001)
+    ampIter.changeValue(0.0022)
     time.sleep(2)
 
     th2.stop()
