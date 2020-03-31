@@ -63,30 +63,36 @@ def detectFrame(detector, im):
 
     return im_with_keypoints, keypoints
 
+# get dimensions of openCV video capture
+def getVidBounds(cap):
+    vidWidth  = int(cap.get(3))
+    vidHeight = int(cap.get(4))
+    return vidWidth, vidHeight
 
-if __name__ == "__main__":
-    detector = getBlobDetect()
 
-    # read frames from VideoCapture
-    cap = cv2.VideoCapture("oneperson.mp4")
-
-    if (cap.isOpened() == False):
-        print("error opening file")
-    else:
-        if DEBUG:
-            print("width = "  + str(int(cap.get(3))))
-            print("height = " + str(int(cap.get(4))))
-
-    while (cap.isOpened()):
-        ret, im = cap.read()
-        if ret == True:
-            im = processImg(im)
-            im_with_keypoints, keypoints = detectFrame(detector, im)
-            cv2.imshow("Keypoints", im_with_keypoints)
-            cv2.waitKey(1)
-
-            if cv2.waitKey(25) & 0xFF == ord('q'):
-                break
-
-    cap.release()
-    cv2.destroyAllWindows()
+# if __name__ == "__main__":
+#     detector = getBlobDetect()
+#
+#     # read frames from VideoCapture
+#     cap = cv2.VideoCapture("oneperson.mp4")
+#
+#     if (cap.isOpened() == False):
+#         print("error opening file")
+#     else:
+#         if DEBUG:
+#             print("width = "  + str(int(cap.get(3))))
+#             print("height = " + str(int(cap.get(4))))
+#
+#     while (cap.isOpened()):
+#         ret, im = cap.read()
+#         if ret == True:
+#             im = processImg(im)
+#             im_with_keypoints, keypoints = detectFrame(detector, im)
+#             cv2.imshow("Keypoints", im_with_keypoints)
+#             cv2.waitKey(1)
+#
+#             if cv2.waitKey(25) & 0xFF == ord('q'):
+#                 break
+#
+#     cap.release()
+#     cv2.destroyAllWindows()
