@@ -21,14 +21,17 @@ minFreq = 225
 maxFreq = 1000
 
 minMod = 0
-maxMod - 0.0022
+# maxMod = 0.0022
+maxMod = 0
 
 rate = 44100 # samples/s
+
+s, Hz = sHz(rate)
 
 vidWidth = None
 vidHeight = None
 
-# dont need min and max gain
+extraGain = 20
 
 with AudioIO(True) as player:
     synth1 = MySynth(minFreq, 0, 0)
@@ -37,10 +40,10 @@ with AudioIO(True) as player:
     synth4 = MySynth(minFreq, 0, 0)
     all_synths = [synth1, synth2, synth3, synth4]
 
-    s1 = player.play(sinusoid(synth1.freqStream * Hz) * (synth1.gainStream * 4 * (sinusoid(s1.modStream))))
-    s2 = player.play(sinusoid(synth2.freqStream * Hz) * (synth2.gainStream * 4 * (sinusoid(s2.modStream))))
-    s3 = player.play(sinusoid(synth3.freqStream * Hz) * (synth3.gainStream * 4 * (sinusoid(s3.modStream))))
-    s4 = player.play(sinusoid(synth4.freqStream * Hz) * (synth4.gainStream * 4 * (sinusoid(s4.modStream))))
+    s1 = player.play(sinusoid(synth1.freqStream * Hz) * extraGain * (synth1.gainStream * 4 * (sinusoid(synth1.modStream) + 1)))
+    s2 = player.play(sinusoid(synth2.freqStream * Hz) * extraGain * (synth2.gainStream * 4 * (sinusoid(synth2.modStream) + 1)))
+    s3 = player.play(sinusoid(synth3.freqStream * Hz) * extraGain * (synth3.gainStream * 4 * (sinusoid(synth3.modStream) + 1)))
+    s4 = player.play(sinusoid(synth4.freqStream * Hz) * extraGain * (synth4.gainStream * 4 * (sinusoid(synth4.modStream) + 1)))
 
     all_players = [s1, s2, s3, s4]
 
@@ -71,21 +74,27 @@ with AudioIO(True) as player:
 
             for synth in all_synths:
                 synth.resetModify()
-
-            # trying to figure out how to increment through updating each synth
-            # as we iterate through the list of keypoints
-            # one option: make array of x and y coordinates of all keypoints
-            # then
-            for keypoint in keypoints:
-                x = keypoint.pt[0]
-                y = keypoint.pt[1]
-                # fix y coordinate and map to frequency
-                fixY = fixCoord(y, vidHeight)
-                yToFreq = convertToRange(fixY, 0, vidHeight, minFreq, maxFreq)
-                xToMod  = convertToRange(x, 0, vidWidth, minMod, maxMod)
-                freqIter.changeValue(yToFreq)
-                gainIter.changeValue(dB2magnitude(freq2dB(yToFreq)) / maxgain)
-                modIter.changeValue(xToMod)
+            # for keypoint in keypoints:
+            #     x = keypoint.pt[0]
+            #     y = keypoint.pt[1]
+            #     # fix y coordinate and map to frequency
+            #     fixY = fixCoord(y, vidHeight)
+            #     yToFreq = convertToRange(fixY, 0, vidHeight, minFreq, maxFreq)
+            #     xToMod  = convertToRange(x, 0, vidWidth, minMod, maxMod)
+            #     freqIter.changeValue(yToFreq)
+            #     gainIter.changeValue(dB2magnitude(freq2dB(yToFreq)) / maxgain)
+            #     modIter.changeValue(xToMod)
+            for index in range(len(keypoints)):
+                if index > (len(all_synths) - 1):
+                    pass
+                else:
+                    x = keypoints[index].pt[0]
+                    y = keypoints[index].pt[1]
+                    fixY = fixCoord(y, vidHeight)
+                    yToFreq = convertToRange(fixY, 0, vidHeight, minFreq, maxFreq)
+                    xToMod  = convertToRange(x, 0, vidWidth, minMod, maxMod)
+                    all_synths[index].changeFreq(yToFreq)
+                    all_synths[index].changeMod(xToMod)
 
             for synth in all_synths:
                 synth.checkModify()
@@ -98,4 +107,6 @@ with AudioIO(True) as player:
 
     cap.release()
     cv2.destroyAllWindows()
-    th2.stop()
+
+    for i in all_players:
+        i.stop()

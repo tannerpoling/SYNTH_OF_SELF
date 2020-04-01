@@ -17,8 +17,8 @@ def getBlobDetect():
     params.minThreshold = 30
     params.maxThreshold = 256
     params.filterByArea = True
-    params.minArea = 200
-    params.maxArea = 1500
+    params.minArea = 1000
+    params.maxArea = 10000
     params.filterByCircularity = False
     params.filterByConvexity = False
     params.filterByInertia = True

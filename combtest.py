@@ -11,15 +11,17 @@ if PYTHON2:
   input = raw_input
 
 rate = 44100 # samples/s
-fstart, fend = 16, 20000 # Hz
+# fstart, fend = 16, 20000 # Hz
 intensity = 50 # phons
-chirp_duration = 5 # seconds
-total_duration = 9 # seconds
+# chirp_duration = 5 # seconds
+# total_duration = 9 # seconds
+s, Hz = sHz(rate)
+freq2dB = phon2dB.iso226(intensity)
+
+maxgain = 402350.59784068936
 
 DEBUG = True
 
-# assert just checks that something is true, throwing error otherwise
-assert total_duration > chirp_duration
 
 def finalize(zeros_dur):
   print("Finished!")
@@ -32,14 +34,7 @@ def finalize(zeros_dur):
 def dB2magnitude(logpower):
   return 10 ** (logpower / 20)
 
-s, Hz = sHz(rate)
-freq2dB = phon2dB.iso226(intensity)
-
-freq = thub(2 ** line(chirp_duration * s, log2(fstart), log2(fend)), 2)
-gain = thub(dB2magnitude(freq2dB(freq)), 2)
-maxgain = max(gain)
-
-freq = 1e3 * Hz * 2
+# freq = 1e3 * Hz * 2
 
 def getBlobDetect():
     # Set up blob detector
@@ -107,6 +102,7 @@ with AudioIO(True) as player:
 #           SYNTH SETUP
 
     print("START SYNTH AT ZERO VOLUME, MIN FREQ. UPDATE VIA OPENCV VALUES")
+    print("MAXGAIN = " + str(maxgain))
     minFreq = 225
     maxFreq = 1000
     freqIter = SI.SynthIter(minFreq)
@@ -160,6 +156,11 @@ with AudioIO(True) as player:
             #        in opencv, top of frame = 0, bottom = max value
             # second: adjust gain accordingly
             # third: try amplitude modulation too
+            # print("NUM OBJECTS = " + str(len(keypoints)))
+
+            for index in range(len(keypoints)):
+                print("X COORD OF OBJECT " + str(index) + ": " + str(keypoints[index].pt[0]))
+            print("len of keypoints = " + str(len(keypoints)))
             for keypoint in keypoints:
                 x = keypoint.pt[0]
                 y = keypoint.pt[1]
