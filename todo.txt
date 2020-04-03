@@ -2,7 +2,7 @@
   - DONE opencv
   - DONE synth
 
-2. basic synth manipulation
+2. DONE basic synth manipulation
   - DONE multithreading for multiple synths
   - DONE vary pitch with time / changing variable
     - make an iterable that only returns one variable
@@ -16,7 +16,7 @@
     - rate of change bounds
   - vary modulation with time / changing variable
 
-3. basic opencv object detection
+3. DONE basic opencv object detection
   - big objects / fast recognition
     - YOLO?
       - wayyyyy over kill
@@ -29,17 +29,25 @@
       then saves that to some sort of config file that can be loaded in
       and run on the original video
 
-4. opencv -> synth (one object)
+4. DONE opencv -> synth (one object)
   - take value of 1 object position -> control synth
     - probably just do biggest object in view?
   - vidmodule detects, returns keypoints. needs to be passed to synthmodule
     - synthmodule then checks number of current synths vs number of blobs before starting any new synths?
     - need some sort of update method in synthmodule that runs every frame, updates pitch and mod of each synth
 
-5. opencv -> synth (multiple object)
+5. DONE opencv -> synth (multiple object)
   - calibrate termination criteria for multiple objects
   - each one controls a separate synth
-    - use multi-threading
+
+5a. Improve code
+  - unique object tracking
+    - mapping unique objects to an assigned synth
+  - more robust tracking algo (not just using blob detection)
+  - trying smoother pitch transitions
+    - syncing image processing with making ramps to smoothly transition pitch
+      - need to enforce time delay between frames being processed
+      
 
 6. get feedback
   - dxarts profs

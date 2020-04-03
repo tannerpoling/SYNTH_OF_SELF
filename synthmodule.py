@@ -31,8 +31,6 @@ class MySynth:
     #   changeGain(newValue in Hz -> converted to whatever units)
     #       if we want to map gain to something later
     #   changeMod(newValue in Hz)
-    #
-    # !!!! NEED TO GET MAXGAIN VALUE AS JUST A NUMBER AND SAVE AS VARIABLE IN HERE
 
     def __init__(self, initFreq = 0, initGain = 0, initMod = 0):
         self.initFreq = initFreq

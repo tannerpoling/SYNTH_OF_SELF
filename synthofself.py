@@ -22,7 +22,7 @@ maxFreq = 1000
 
 minMod = 0
 # maxMod = 0.0022
-maxMod = 0
+maxMod = 0 # set to zero to disable modulation. maybe use true/false variable?
 
 rate = 44100 # samples/s
 
@@ -50,7 +50,8 @@ with AudioIO(True) as player:
     #       BEGIN VIDEO PROCESSING
 
     detector = getBlobDetect()
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(0) # 0 -> webcam
+    # cap = cv2.VideoCapture("walk1.mp4")
 
     if (cap.isOpened() == False):
         print("error opening file")
@@ -62,6 +63,7 @@ with AudioIO(True) as player:
 
     while(cap.isOpened()):
         ret, im = cap.read()
+        im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
         cv2.imshow("original frame", im)
         cv2.waitKey(1)
 
@@ -69,7 +71,7 @@ with AudioIO(True) as player:
             print("No image found")
 
         if ret == True:
-            im = processImg(im)
+            # im = processImg(im)
             im_with_keypoints, keypoints = detectFrame(detector, im)
 
             for synth in all_synths:
@@ -110,3 +112,11 @@ with AudioIO(True) as player:
 
     for i in all_players:
         i.stop()
+
+
+# example code for using smoother transitions:
+# freqRamp = line(3 * s, freqStream.peek(), 850)
+# gainRamp = line(3 * s, gainStream.peek(), dB2magnitude(freq2dB(850)) / maxgain)
+# print("upper = " + str(dB2magnitude(freq2dB(850)) / maxgain))
+# freqIter.append(freqRamp)
+# gainIter.append(gainRamp)
