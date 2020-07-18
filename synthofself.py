@@ -3,6 +3,12 @@
 # import vidmodule as VM
 from synthmodule import *
 from vidmodule   import *
+from harmony     import *
+
+# TODO:
+# - integrate harmony detection -> draw something on screen
+# - integrate improved image processing for blob detection
+
 
 def convertToRange(oldValue, oldMin, oldMax, newMin, newMax):
     oldRange = (oldMax - oldMin)
@@ -14,6 +20,21 @@ def convertToRange(oldValue, oldMin, oldMax, newMin, newMax):
 def fixCoord(val, max):
     newVal = max - val
     return newVal
+
+# get current state of array of synths
+def getStates(synths):
+    allFreq = [0] * len(synths)
+    allGain = [0] * len(synths)
+    allMod = [0] * len(synths)
+    for i in range(len(synths)):
+        allFreq[i], allGain[i], allMod[i] = synths[i].peekState()
+    return allFreq, allGain, allFreq
+
+def getFreqs(synths):
+    allFreq = [0] * len(synths)
+    for i in range(len(synths)):
+        allFreq[i] = synths[i].peekFreq()
+    return sorted(allFreq)
 
 # all variables
 
@@ -49,6 +70,7 @@ with AudioIO(True) as player:
 
     #       BEGIN VIDEO PROCESSING
 
+    # call video set-up function
     detector = getBlobDetect()
     cap = cv2.VideoCapture(0) # 0 -> webcam
     # cap = cv2.VideoCapture("walk1.mp4")
@@ -72,6 +94,7 @@ with AudioIO(True) as player:
 
         if ret == True:
             # im = processImg(im)
+            # find blobs within current frame
             im_with_keypoints, keypoints = detectFrame(detector, im)
 
             for synth in all_synths:
@@ -86,7 +109,7 @@ with AudioIO(True) as player:
             #     freqIter.changeValue(yToFreq)
             #     gainIter.changeValue(dB2magnitude(freq2dB(yToFreq)) / maxgain)
             #     modIter.changeValue(xToMod)
-            for index in range(len(keypoints)):
+            for index in range(len(keypoints)): # loop thru detected blobs and update synths
                 if index > (len(all_synths) - 1):
                     pass
                 else:
@@ -99,7 +122,12 @@ with AudioIO(True) as player:
                     all_synths[index].changeMod(xToMod)
 
             for synth in all_synths:
-                synth.checkModify()
+                synth.checkModify() # makes sure that each synth is actively being used, turns off volume otherwise
+
+            # do harmony checks
+            # allFreqs = getFreqs(all_synths)
+            # if harmony(allFreqs):
+            #   do stuff
 
             cv2.imshow("Keypoints", im_with_keypoints)
             cv2.waitKey(1)

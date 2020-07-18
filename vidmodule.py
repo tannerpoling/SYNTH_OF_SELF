@@ -3,10 +3,11 @@
 import cv2
 import numpy as np
 
-# making things a little more organized for future work
-# some goals:
-#    be able to pass command-line args for things like video source,
-#   parameter values, or file of parameter valuesS
+# TODO:
+# - integrate MOG background subtraction
+#     take in background at start, assume no objects on screen
+#     (include terminal message talking about this)
+#     include this in processImg
 
 DEBUG = True
 

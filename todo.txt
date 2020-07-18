@@ -42,12 +42,17 @@
 
 5a. Improve code
   - unique object tracking
-    - mapping unique objects to an assigned synth
+    - mapping unique objects to an assigned synth, not just 4 constantly running synths
   - more robust tracking algo (not just using blob detection)
-  - trying smoother pitch transitions
+    - MOG background subtraction for easier blob detection
+  - visualizations
+    - heatmap of blob locations
+    - harmony response
+      - initial goal: green circle on screen when in harmony
+  - (maybe) trying smoother pitch transitions
     - syncing image processing with making ramps to smoothly transition pitch
       - need to enforce time delay between frames being processed
-      
+
 
 6. get feedback
   - dxarts profs

@@ -4,6 +4,11 @@ import time
 import threading
 import synthIter as SI
 
+
+# TODO:
+
+
+
 def dB2magnitude(logpower):
   return 10 ** (logpower / 20)
 
@@ -63,3 +68,12 @@ class MySynth:
     def checkModify(self):
         if self.modified == False:
             self.gainIter.changeValue(0)
+
+    def peekFreq(self):
+        return self.freqIter.peek()
+
+    def peekState(self):
+        current_freq = self.freqIter.peek()
+        current_gain = self.gainIter.peek()
+        current_mod  = self.modIter.peek()
+        return current_freq, current_mod, current_gain
