@@ -1,4 +1,4 @@
-1. install python packages
+1. DONE install python packages
   - DONE opencv
   - DONE synth
 
@@ -11,15 +11,15 @@
       - have a sine wave going for a while, then make a ramp up
         - have sinusoid(base freq) * some gain [ just do what chirp example does ]
         - grab current value of gain, use line() to make ramp from there to end value
-  - make pitch adjustment more robust\
+  - DONE make pitch adjustment more robust\
     - upper / lower bounds of pitch
     - rate of change bounds
-  - vary modulation with time / changing variable
+  - DONE vary modulation with time / changing variable
 
 3. DONE basic opencv object detection
   - big objects / fast recognition
     - YOLO?
-      - wayyyyy over kill
+      - wayyyyy overkill
     - assign position / center coordinate
     - export numerical value
       - try drawing on screen
@@ -52,16 +52,16 @@
   - (maybe) trying smoother pitch transitions
     - syncing image processing with making ramps to smoothly transition pitch
       - need to enforce time delay between frames being processed
+  - detect harmony
 
 
 6. get feedback
   - dxarts profs
-  - students (post on ig?)
+  - students
 
 7. get a demo together
   - look into visuals
     - idea: visualization based on number of sounds, pitches, harmony
-      - kind of psychedelic theme
       - starting in center of each wall in the room, expanding outwards
       - 1 synth -> circular
       - 2 synth -> line?

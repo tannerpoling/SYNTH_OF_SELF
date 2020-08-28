@@ -26,5 +26,6 @@ def harmony(freqs):
 
 
     # assume first index is the base?
-    # like that leetcoe problem: find number of elements in array that add up to target value!
+    # like that leetcode problem: find number of elements in array that add up to target value!
     # here, find number of elements in array that are a "good" multiple of each other
+    print('yeet')

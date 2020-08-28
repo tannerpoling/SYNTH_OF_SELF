@@ -3,11 +3,11 @@
 # import vidmodule as VM
 from synthmodule import *
 from vidmodule   import *
-from harmony     import *
+from harmonymodule     import *
 
 # TODO:
 # - integrate harmony detection -> draw something on screen
-# - integrate improved image processing for blob detection
+# - improve background subtraction / foreground mask
 
 
 def convertToRange(oldValue, oldMin, oldMax, newMin, newMax):
@@ -36,6 +36,33 @@ def getFreqs(synths):
         allFreq[i] = synths[i].peekFreq()
     return sorted(allFreq)
 
+def updateSynths(centroids):
+    # global vidHeight
+    # global vidWidth
+    # global minFreq
+    # global maxFreq
+    # global minMod
+    # global maxMod
+
+    for index in range(len(centroids)): # loop thru detected objects, update synths
+        if index > (len(all_synths) - 1):
+            pass
+        else:
+            x = centroids[index][0]
+            y = centroids[index][1]
+
+            fixY = fixCoord(y, vidHeight)
+            yToFreq = convertToRange(fixY, 0, vidHeight, minFreq, maxFreq)
+            xToMod  = convertToRange(x, 0, vidWidth, minMod, maxMod)
+            all_synths[index].changeFreq(yToFreq)
+            all_synths[index].changeMod(xToMod)
+
+
+    for synth in all_synths:
+        synth.checkModify() # makes sure that each synth is actively being used
+                            # turns off volume otherwise
+
+
 # all variables
 
 minFreq = 225
@@ -54,6 +81,8 @@ vidHeight = None
 
 extraGain = 20
 
+bgSubtract = True
+
 with AudioIO(True) as player:
     synth1 = MySynth(minFreq, 0, 0)
     synth2 = MySynth(minFreq, 0, 0)
@@ -71,21 +100,37 @@ with AudioIO(True) as player:
     #       BEGIN VIDEO PROCESSING
 
     # call video set-up function
-    detector = getBlobDetect()
+    # detector = getBlobDetect()
     cap = cv2.VideoCapture(0) # 0 -> webcam
     # cap = cv2.VideoCapture("walk1.mp4")
 
     if (cap.isOpened() == False):
-        print("error opening file")
+        print("error opening file / connecting to webcam!")
     else:
         vidWidth  = int(cap.get(3))
         vidHeight = int(cap.get(4))
-        print("width = "  + str(vidWidth))
-        print("height = " + str(vidHeight))
+        print("video width = "  + str(vidWidth))
+        print("video height = " + str(vidHeight))
+
+    # SUBTRACT BACKGROUND
+
+    print("Subtracting background, remove all objects from frame!")
+    time.sleep(2)
+    backSub = cv2.createBackgroundSubtractorMOG2()
+    backSub.setDetectShadows(False)
+    # backSub.setHistory(1)
+    ret, im = cap.read()
+    fgMask = backSub.apply(im, None, 1.0)
+    # cv2.imshow("FG MASK", fgMask)
+    # cv2.waitKey(10)
+    time.sleep(2)
+
+    # START SYNTH OF SELF
 
     while(cap.isOpened()):
+
         ret, im = cap.read()
-        im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+        # im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
         cv2.imshow("original frame", im)
         cv2.waitKey(1)
 
@@ -94,42 +139,24 @@ with AudioIO(True) as player:
 
         if ret == True:
             # im = processImg(im)
-            # find blobs within current frame
-            im_with_keypoints, keypoints = detectFrame(detector, im)
+            # find objects within current frame
+            fgMask = backSub.apply(im, None, 0.0)
+            # fgMask = processMask(fgMask)
+            if DEBUG:
+                cv2.imshow('cur mask', fgMask)
+                cv2.waitKey(1)
+
+
+
+            # im_with_keypoints, centroids = detectFrame(detector, im)
+            im_with_keypoints, centroids = detectFrame_MOG(fgMask, im)
+
 
             for synth in all_synths:
                 synth.resetModify()
-            # for keypoint in keypoints:
-            #     x = keypoint.pt[0]
-            #     y = keypoint.pt[1]
-            #     # fix y coordinate and map to frequency
-            #     fixY = fixCoord(y, vidHeight)
-            #     yToFreq = convertToRange(fixY, 0, vidHeight, minFreq, maxFreq)
-            #     xToMod  = convertToRange(x, 0, vidWidth, minMod, maxMod)
-            #     freqIter.changeValue(yToFreq)
-            #     gainIter.changeValue(dB2magnitude(freq2dB(yToFreq)) / maxgain)
-            #     modIter.changeValue(xToMod)
-            for index in range(len(keypoints)): # loop thru detected blobs and update synths
-                if index > (len(all_synths) - 1):
-                    pass
-                else:
-                    x = keypoints[index].pt[0]
-                    y = keypoints[index].pt[1]
-                    fixY = fixCoord(y, vidHeight)
-                    yToFreq = convertToRange(fixY, 0, vidHeight, minFreq, maxFreq)
-                    xToMod  = convertToRange(x, 0, vidWidth, minMod, maxMod)
-                    all_synths[index].changeFreq(yToFreq)
-                    all_synths[index].changeMod(xToMod)
 
-            for synth in all_synths:
-                synth.checkModify() # makes sure that each synth is actively being used, turns off volume otherwise
-
-            # do harmony checks
-            # allFreqs = getFreqs(all_synths)
-            # if harmony(allFreqs):
-            #   do stuff
-
-            cv2.imshow("Keypoints", im_with_keypoints)
+            updateSynths(centroids)
+            cv2.imshow("Keypoints", im)
             cv2.waitKey(1)
 
             if cv2.waitKey(25) & 0xFF == ord('q'):
