@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # import synthmodule as SM
 # import vidmodule as VM
-from synthmodule import *
-from vidmodule   import *
-from harmonymodule     import *
+from synthmodule    import *
+from vidmodule      import *
+from harmonymodule  import *
+from plotmodule     import *
 
 # TODO:
 # - integrate harmony detection -> draw something on screen
@@ -37,21 +38,18 @@ def getFreqs(synths):
     return sorted(allFreq)
 
 def updateSynths(centroids):
-    # global vidHeight
-    # global vidWidth
-    # global minFreq
-    # global maxFreq
-    # global minMod
-    # global maxMod
 
     for index in range(len(centroids)): # loop thru detected objects, update synths
         if index > (len(all_synths) - 1):
             pass
         else:
-            x = centroids[index][0]
-            y = centroids[index][1]
+            x = int(centroids[index][0])
+            y = int(centroids[index][1])
 
             fixY = fixCoord(y, vidHeight)
+
+            heatmapData[x][fixY] += 1
+
             yToFreq = convertToRange(fixY, 0, vidHeight, minFreq, maxFreq)
             xToMod  = convertToRange(x, 0, vidWidth, minMod, maxMod)
             all_synths[index].changeFreq(yToFreq)
@@ -78,6 +76,7 @@ s, Hz = sHz(rate)
 
 vidWidth = None
 vidHeight = None
+heatmapData = None
 
 extraGain = 20
 
@@ -111,6 +110,10 @@ with AudioIO(True) as player:
         vidHeight = int(cap.get(4))
         print("video width = "  + str(vidWidth))
         print("video height = " + str(vidHeight))
+
+        heatmapData = np.ones(shape=(vidWidth,vidHeight))
+
+        print("heatmap shape: " + str(heatmapData.shape))
 
     # SUBTRACT BACKGROUND
 
@@ -156,6 +159,8 @@ with AudioIO(True) as player:
                 synth.resetModify()
 
             updateSynths(centroids)
+            updateHeatmap(heatmapData)
+
             cv2.imshow("Keypoints", im)
             cv2.waitKey(1)
 
