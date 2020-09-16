@@ -5,7 +5,7 @@ exploring harmony through spatial arrangement.
 
 **HOW TO USE**  
 Required packages: OpenCV 3.0+, audiolazy, numpy, matplotlib  
-./synthofself.py runs the main program  
+"python3 synthofself.py" (without quotes) runs the main program  
 object recognition parameters can be modified within vidmodule.py  
 synth volume can be modified within synthmodule.py  
 min/max frequency, sampling rate, additional gain, min/max modulation can be changed in synthofself.py  

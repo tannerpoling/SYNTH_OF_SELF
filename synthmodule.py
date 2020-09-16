@@ -14,7 +14,7 @@ def dB2magnitude(logpower):
 
 intensity = 50 # phons
 freq2dB = phon2dB.iso226(intensity)
-maxgain = 402350.59784068936
+maxGain = 402350.59784068936
 
 class MySynth:
     # Synth fields:
@@ -52,7 +52,7 @@ class MySynth:
     # assumes that given frequency has been fixed, converted from openCV coord range -> freq range
     def changeFreq(self, newFreq):
         self.freqIter.changeValue(newFreq)
-        self.gainIter.changeValue(dB2magnitude(freq2dB(newFreq)) / maxgain) # FIX THIS
+        self.gainIter.changeValue(dB2magnitude(freq2dB(newFreq)) / maxGain) # FIX THIS
         self.modified = True
 
     # assumes that given value is a frequency value that has been converted already
