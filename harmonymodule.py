@@ -1,17 +1,44 @@
 #!/usr/bin/env python3
-
+from synthmodule    import *
+# ^ should give acess to all_synths
 # methods for determining whether current frequencies are in harmony
 
 # TODO:
 # make function that returns whether given synths are in harmony
 
-def harmony(freqs):
-    # return true if current synths are within harmony
-    # pass in all synths? or assume global access
+def harmonious_synths():
 
     # in: array of frequencies
-    # should harmony be a boolean? int range of 0 to 255?
-    # idea: array sorted from lowest to highest frequency
+
+    # not sure how to output indices corresponding to harmonious synths,
+    # instead will just update gain here!
+
+    # find how many synths are harmonious
+    #   if a set of harmonious synths already exists:
+    #       check if set is still harmonious
+    #           if it is, keep it and proceed to next steps
+    #           if it isn't, discard set and proceed to "if there is no set"
+    #       skip ones in that set, only testing other synths
+    #       (will need set of harmonious synths to be persistent!!)
+
+    #   if there is no current set of harmonious synths:
+    #       for each synth, see if it is harmonious with other synths
+    #           only look at synths outside of the current set of synths
+    #           divide it's frequency by frequency of other synths
+    #               (whichever one is largest is in denominator)
+    #           if within threshold, the two are harmonious!
+    #           create set of the two synths and be done (check for set existence every time)
+
+
+
+    #       note: if a harmonious with b, c harmonious with synth b,
+    #       then a harmonious with c AKA it is communicative
+    #           -> make a bunch of sets
+
+
+    # aplify those harmonious synths specifically
+    #   more harmonious synths -> each one is amplified more
+
     #
     # notes on listening to random frequencies
     # listening to base of 225

@@ -38,7 +38,8 @@ def getFreqs(synths):
     return sorted(allFreq)
 
 def updateSynths(centroids):
-
+    # TODO: use an ordered set of cetroids to achieve ordering of synths!!
+    #       test this functionality with simple print statements
     for index in range(len(centroids)): # loop thru detected objects, update synths
         if index > (len(all_synths) - 1):
             pass
@@ -50,10 +51,13 @@ def updateSynths(centroids):
 
             heatmapData[x][fixY] += 1
 
+            # update frequency and modulation
             yToFreq = convertToRange(fixY, 0, vidHeight, minFreq, maxFreq)
             xToMod  = convertToRange(x, 0, vidWidth, minMod, maxMod)
             all_synths[index].changeFreq(yToFreq)
             all_synths[index].changeMod(xToMod)
+
+    # check harmony and update gain of harmonious synths
 
 
     for synth in all_synths:

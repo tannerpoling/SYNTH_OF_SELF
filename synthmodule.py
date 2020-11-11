@@ -28,7 +28,7 @@ class MySynth:
     # all except gainIter have a min/max, values that should be held by the program using this,
     # passed in construction
 
-    # flag for whether it's been modified in the last cycle (aka if object has disappeared)
+    # modified: flag for whether it's been modified in the last cycle (aka if object has disappeared)
 
     # Useful functions:
     #   changeFrequency(newValue in Hz)
@@ -59,6 +59,19 @@ class MySynth:
     def changeMod(self, newMod):
         self.modIter.changeValue(newMod)
         self.modified = True
+
+    def changeGain(self, newGain):
+        self.gainIter.changeValue(newGain)
+        self.modified = True #?
+
+# TODO: implement a decaying gain back to normal when leaving harmony
+
+        # example code for using smoother transitions:
+        # freqRamp = line(3 * s, freqStream.peek(), 850)
+        # gainRamp = line(3 * s, gainStream.peek(), dB2magnitude(freq2dB(850)) / maxgain)
+        # print("upper = " + str(dB2magnitude(freq2dB(850)) / maxgain))
+        # freqIter.append(freqRamp)
+        # gainIter.append(gainRamp)
 
     # set 'modified' flag to false
     def resetModify(self):
