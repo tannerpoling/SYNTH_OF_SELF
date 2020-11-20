@@ -1,17 +1,11 @@
-# SYNTH_OF_SELF is an interactive media project created by Tanner Poling  
+# SYNTH_OF_SELF 
 
-The basic premise of this project is to represent the physical location and movement of people via sound,
-exploring harmony through spatial arrangement.  
-
-**HOW TO USE**  
-Required packages: OpenCV 3.0+, audiolazy, numpy, matplotlib  
-"python3 synthofself.py" (without quotes) runs the main program  
-object recognition parameters can be modified within vidmodule.py  
-synth volume can be modified within synthmodule.py  
-min/max frequency, sampling rate, additional gain, min/max modulation can be changed in synthofself.py  
-
-What's next:  
-- using more sophisticated / robust object recognition and tracking  
-- increasing flexibility, current implementation has 4 synths constantly running  
-- want to be more efficient / less hacked together  
-- add heatmap of detected objects
+This project explores the enchanting properties of technological horror in the form of auditory embodiment, powered by Computer Vision and Audio Synthesis software.  
+The goal is to investigate how one grapples with individual agency in a world dominated by technology; where the only source of information and orientation comes from remote, mysterious, hidden computerized processes.  
+  
+By introducing a dissonant soundscape which is determined by the positions of people in the SYNTH OF SELF space, auditory intrusions are in fact disruptions to the process of our bodily translation to the digital domain (and by extension, disruptions to the body).  
+  
+Computer Vision in itself is known to be a controversial technology. The same set of instructions that can be used to identify malignant tissue at a hospital is simultaneously used to track and arrest political dissidents, authorize robotic attacks abroad, and unknowingly predict our personal behavior. In the case of facial recognition, Computer Vision necessarily brutalizes the organic features of the human face into numerical metrics, to be permanently taken and written upon the registers of some unknown, faraway machine memory. The face, which is in much effect the way we are known to the world, is taken painlessly, invisibly, and later embedded upon doped silicon buried somewhere within the earth.  
+  
+This burial in many ways is a death of its own; to be embodied into a digital space is to lose one's entirety of expression. The rendition of the painting contains the power to resurrect the dead. What happens when this is done millions and millions of times over, frame by frame of the flickering display, before physical death? Our bodies are compromised by computer interfaces, and yet we remain societally captivated by their development.  
+An intended effect of this project is for it's participants to question whether they can ever be encapsulated outside of their simple being.  
