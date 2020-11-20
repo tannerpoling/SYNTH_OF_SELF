@@ -1,4 +1,4 @@
-# *SYNTH_OF_SELF *
+# *SYNTH_OF_SELF*
 ``` 
 This project explores the enchanting properties of technological horror in the form of auditory embodiment, powered by Computer Vision and Audio Synthesis software.  
 The goal is to investigate how one grapples with individual agency in a world dominated by technology; where the only source of information and orientation comes from remote, mysterious, hidden computerized processes.  
