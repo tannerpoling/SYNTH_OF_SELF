@@ -11,7 +11,8 @@ I reccomend reading the (eventually) included video demonstration before reading
   
 By introducing a dissonant soundscape which is determined by the positions of people  
 in the SYNTH OF SELF space, auditory intrusions are in fact disruptions  
-to the process of our bodily translation to the digital domain (and by extension, disruptions to the body).  
+to the process of our bodily translation to the digital domain  
+(and by extension, disruptions to the body).  
   
 Computer Vision in itself is known to be a controversial technology.  
 The same set of instructions that can be used to identify malignant tissue at a hospital  
@@ -26,9 +27,11 @@ invisibly, and later embedded upon doped silicon buried somewhere within the ear
 This burial in many ways is a death of its own; to be embodied into a digital space  
 is to lose one's entirety of expression.  
 The rendition of the painting contains the power to resurrect the dead.  
-What happens when this is done millions and millions of times over, frame by frame of the flickering display,  
+What happens when this is done millions and millions of times over,  
+frame by frame of the flickering display,  
 before physical death?  
-Our bodies are compromised by computer interfaces, and yet we remain societally captivated by their development.  
+Our bodies are compromised by computer interfaces, and yet  
+we remain societally captivated by their development.  
 An intended effect of this project is for it's participants to question  
 whether they can ever be encapsulated outside of their simple being.  
 
