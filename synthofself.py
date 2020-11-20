@@ -53,18 +53,18 @@ def updateSynths(centroids):
                 heatmapData[x][fixY] += 1
 
             # update frequency and modulation
-            global test_count, test_modval
+            global count, modval
 
             yToFreq = convertToRange(fixY, 0, vidHeight, minFreq, maxFreq)
             xToMod  = convertToRange(x, 0, vidWidth, minMod, maxMod)
-            if test_count % test_modval == 0:
-                all_synths[index].changeFreq(yToFreq / 2)
-                all_synths[index].changeMod(xToMod / 2)
+            if (index > 1 and count % modval == 0):
+                    all_synths[index].changeFreq(yToFreq / 2)
+                    all_synths[index].changeMod(xToMod / 2)
             else:
                 all_synths[index].changeFreq(yToFreq)
                 all_synths[index].changeMod(xToMod)
 
-            test_count = test_count + 1
+            count = count + 1
 
     # check harmony and update gain of harmonious synths
 
@@ -83,12 +83,10 @@ minMod = 0
 maxMod = 0.0022
 # maxMod = 0 # set to zero to disable modulation. maybe use true/false variable?
 
-# new: experimenting with variable sample rate
-rate_min = 22000
-rate_max = 44100
 rate = 44100 # samples/s
-test_count = 0
-test_modval = 2
+
+count = 0
+modval = 3
 
 s, Hz = sHz(rate)
 
@@ -117,8 +115,8 @@ with AudioIO(True) as player:
 
     s1 = player.play(sinusoid(synth1.freqStream * Hz) * extraGain * (synth1.gainStream * 4 * (sinusoid(synth1.modStream) + 1)))
     s2 = player.play(sinusoid(synth2.freqStream * Hz) * extraGain * (synth2.gainStream * 4 * (sinusoid(synth2.modStream) + 1)))
-    s3 = player.play(sinusoid(synth3.freqStream * Hz) * extraGain * (synth3.gainStream * 4 * (sinusoid(synth3.modStream) + 1)))
-    s4 = player.play(sinusoid(synth4.freqStream * Hz) * extraGain * (synth4.gainStream * 4 * (sinusoid(synth4.modStream) + 1)))
+    s3 = player.play(sinusoid(synth3.freqStream * Hz) * extraGain * 2 * (synth3.gainStream * 4 * (sinusoid(synth3.modStream) + 1)))
+    s4 = player.play(sinusoid(synth4.freqStream * Hz) * extraGain * 2 * (synth4.gainStream * 4 * (sinusoid(synth4.modStream) + 1)))
 
     all_players = [s1, s2, s3, s4]
 
@@ -184,7 +182,7 @@ with AudioIO(True) as player:
             for synth in all_synths:
                 synth.resetModify()
 
-            updateSynths(centroids)
+            updateSynths(sorted(centroids))
 
             if heatmap_en:
                 updateHeatmap(heatmapData)
