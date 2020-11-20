@@ -49,13 +49,22 @@ def updateSynths(centroids):
 
             fixY = fixCoord(y, vidHeight)
 
-            heatmapData[x][fixY] += 1
+            if heatmap_en:
+                heatmapData[x][fixY] += 1
 
             # update frequency and modulation
+            global test_count, test_modval
+
             yToFreq = convertToRange(fixY, 0, vidHeight, minFreq, maxFreq)
             xToMod  = convertToRange(x, 0, vidWidth, minMod, maxMod)
-            all_synths[index].changeFreq(yToFreq)
-            all_synths[index].changeMod(xToMod)
+            if test_count % test_modval == 0:
+                all_synths[index].changeFreq(yToFreq / 2)
+                all_synths[index].changeMod(xToMod / 2)
+            else:
+                all_synths[index].changeFreq(yToFreq)
+                all_synths[index].changeMod(xToMod)
+
+            test_count = test_count + 1
 
     # check harmony and update gain of harmonious synths
 
@@ -71,10 +80,15 @@ minFreq = 225
 maxFreq = 1000
 
 minMod = 0
-# maxMod = 0.0022
-maxMod = 0 # set to zero to disable modulation. maybe use true/false variable?
+maxMod = 0.0022
+# maxMod = 0 # set to zero to disable modulation. maybe use true/false variable?
 
+# new: experimenting with variable sample rate
+rate_min = 22000
+rate_max = 44100
 rate = 44100 # samples/s
+test_count = 0
+test_modval = 2
 
 s, Hz = sHz(rate)
 
@@ -86,7 +100,15 @@ extraGain = 20
 
 bgSubtract = True
 
+heatmap_en = False
+DEBUG = True
+
+vidSource = 0 # 0 -> webcam, "/dev/video2" -> usb webcam
+
 with AudioIO(True) as player:
+
+    #       SET UP ALL SYNTHS
+
     synth1 = MySynth(minFreq, 0, 0)
     synth2 = MySynth(minFreq, 0, 0)
     synth3 = MySynth(minFreq, 0, 0)
@@ -102,10 +124,7 @@ with AudioIO(True) as player:
 
     #       BEGIN VIDEO PROCESSING
 
-    # call video set-up function
-    # detector = getBlobDetect()
-    cap = cv2.VideoCapture(0) # 0 -> webcam
-    # cap = cv2.VideoCapture("walk1.mp4")
+    cap = cv2.VideoCapture(vidSource)
 
     if (cap.isOpened() == False):
         print("error opening file / connecting to webcam!")
@@ -115,11 +134,12 @@ with AudioIO(True) as player:
         print("video width = "  + str(vidWidth))
         print("video height = " + str(vidHeight))
 
-        heatmapData = np.ones(shape=(vidWidth,vidHeight))
+        if heatmap_en:
+            heatmapData = np.ones(shape=(vidWidth,vidHeight))
+            print("heatmap shape: " + str(heatmapData.shape))
 
-        print("heatmap shape: " + str(heatmapData.shape))
 
-    # SUBTRACT BACKGROUND
+    # SUBTRACT BACKGROUND (for MOG subtraction method)
 
     print("Subtracting background, remove all objects from frame!")
     time.sleep(2)
@@ -128,9 +148,9 @@ with AudioIO(True) as player:
     # backSub.setHistory(1)
     ret, im = cap.read()
     fgMask = backSub.apply(im, None, 1.0)
-    # cv2.imshow("FG MASK", fgMask)
-    # cv2.waitKey(10)
     time.sleep(2)
+
+
 
     # START SYNTH OF SELF
 
@@ -154,8 +174,10 @@ with AudioIO(True) as player:
                 cv2.waitKey(1)
 
 
+            # for Blob detector processing:
+            # detector = getBlobDetect()
+            # im_with_keypoints, centroids = detectFrame_Blob(detector, im)
 
-            # im_with_keypoints, centroids = detectFrame(detector, im)
             im_with_keypoints, centroids = detectFrame_MOG(fgMask, im)
 
 
@@ -163,7 +185,9 @@ with AudioIO(True) as player:
                 synth.resetModify()
 
             updateSynths(centroids)
-            updateHeatmap(heatmapData)
+
+            if heatmap_en:
+                updateHeatmap(heatmapData)
 
             cv2.imshow("Keypoints", im)
             cv2.waitKey(1)

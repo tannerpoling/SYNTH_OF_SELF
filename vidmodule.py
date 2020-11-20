@@ -11,7 +11,7 @@ import numpy as np
 # - maybe? integrate unique object tracking
 #     would involve using vectors to determine whether object moves too far
 
-DEBUG = True
+DEBUG = False
 
 
 def getBlobDetect():
@@ -100,13 +100,15 @@ def detectFrame_MOG(fgMask, im):
         hierarchy = []
 
     cont_min_width = 30
+    cont_max_width = 300
     cont_min_height = 30
+    cont_max_height = 300
     centroids = []
 
     for contour, hier in zip(contours, hierarchy):
         (x, y, w, h) = cv2.boundingRect(contour)
 
-        if w > cont_min_width and h > cont_min_height:
+        if w > cont_min_width and w < cont_max_width and h > cont_min_height and h < cont_max_height:
             cv2.rectangle(im, (x,y), (x+w,y+h), (255, 0, 0), 1)
 
             # centroid of contour
