@@ -32,7 +32,7 @@ frame by frame of the flickering display,
 before physical death?  
 Our bodies are compromised by computer interfaces, and yet  
 we remain societally captivated by their development 
-(perhaps gripped by a similar horror).  
+(perhaps gripped by a similar sort of horror).  
 An intended effect of this project is for it's participants to question  
 whether they can ever be encapsulated outside of their simple being.  
 
