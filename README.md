@@ -31,7 +31,8 @@ What happens when this is done millions and millions of times over,
 frame by frame of the flickering display,  
 before physical death?  
 Our bodies are compromised by computer interfaces, and yet  
-we remain societally captivated by their development.  
+we remain societally captivated by their development 
+(perhaps gripped by a similar horror).  
 An intended effect of this project is for it's participants to question  
 whether they can ever be encapsulated outside of their simple being.  
 
