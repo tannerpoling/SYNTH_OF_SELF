@@ -10,6 +10,13 @@ from plotmodule     import *
 # - integrate harmony detection -> draw something on screen
 # - improve background subtraction / foreground mask
 
+def rescale_frame(frame, percent=75):
+    width = int(frame.shape[1] * percent/ 100)
+    height = int(frame.shape[0] * percent/ 100)
+    dim = (width, height)
+    return cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
+
+
 
 def convertToRange(oldValue, oldMin, oldMax, newMin, newMax):
     oldRange = (oldMax - oldMin)
@@ -103,6 +110,8 @@ DEBUG = True
 
 vidSource = 0 # 0 -> webcam, "/dev/video2" -> usb webcam
 
+downscale_factor = 10
+
 with AudioIO(True) as player:
 
     #       SET UP ALL SYNTHS
@@ -155,7 +164,6 @@ with AudioIO(True) as player:
     while(cap.isOpened()):
 
         ret, im = cap.read()
-        # im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
         cv2.imshow("original frame", im)
         cv2.waitKey(1)
 
@@ -184,8 +192,18 @@ with AudioIO(True) as player:
 
             updateSynths(sorted(centroids))
 
+            if (len(centroids) > 2):
+                downscale_factor = 20
+            else :
+                downscale_factor = 10
+
             if heatmap_en:
                 updateHeatmap(heatmapData)
+
+            im = rescale_frame(im, percent = (100 / downscale_factor))
+            im = rescale_frame(im, percent = (100 * downscale_factor))
+            im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+
 
             cv2.imshow("Keypoints", im)
             cv2.waitKey(1)
