@@ -1,0 +1,6 @@
+HOW TO USE
+Required packages: OpenCV 3.0+, audiolazy, numpy, matplotlib
+"python3 synthofself.py" (without quotes) runs the main program
+object recognition parameters can be modified within vidmodule.py
+synth volume can be modified within synthmodule.py
+min/max frequency, sampling rate, additional gain, min/max modulation, etc. can be changed in synthofself.py
