@@ -14,10 +14,7 @@ in the SYNTH OF SELF space, auditory intrusions are in fact disruptions
 to the process of our bodily translation to the digital domain  
 (and by extension, disruptions to the body).  
   
-Computer Vision in itself is known to be a controversial technology.  
-The same set of instructions that can be used to identify malignant tissue at a hospital  
-is simultaneously used to track and arrest political dissidents, authorize robotic attacks abroad,  
-and unknowingly predict our personal behavior.  
+Computer Vision in itself is known to be a controversial technology.   
 In the case of facial recognition, Computer Vision necessarily brutalizes the organic features  
 of the human face into numerical metrics, to be permanently taken and written upon the registers  
 of some unknown, faraway machine memory.  
