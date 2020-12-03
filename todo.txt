@@ -43,34 +43,31 @@
 5a. Improve code
   - unique object tracking
     - mapping unique objects to an assigned synth, not just 4 constantly running synths
-  - more robust tracking algo (not just using blob detection)
+  - DONE more robust tracking algo (not just using blob detection)
     - MOG background subtraction for easier blob detection
-  - visualizations
+  - (kind of) DONE visualizations
     - heatmap of blob locations
     - harmony response
       - initial goal: green circle on screen when in harmony
   - (maybe) trying smoother pitch transitions
     - syncing image processing with making ramps to smoothly transition pitch
       - need to enforce time delay between frames being processed
-  - detect harmony
+ 
+6. Harmony detection (for harmony-based)
+  - audiolazy has functions to convert frequencies to scientific pitch notations
+  - could be combined with packages that go from pitch notation -> chords!
+  
+7. Visuals (harmony-based)
+  - ideally use TouchDesigner
+  - think of a topographic map? people in room become "hills"
+  - harmony state used as a flag to enable more... illustrious visuals?
 
-
-6. get feedback
+7. get feedback (for harmony-based)
   - dxarts profs
   - students
+  - art people (especially the intimidating ones)
 
-7. get a demo together
-  - look into visuals
-    - idea: visualization based on number of sounds, pitches, harmony
-      - starting in center of each wall in the room, expanding outwards
-      - 1 synth -> circular
-      - 2 synth -> line?
-      - 3 synth -> triangle, and so on
-      - stability of lines, colors, or volume can depend on harmony
-    - maybe see if someone else wants to work on that part
+8. get a demo together (harmony-based)
+8a. DONE demo (horror-based)
 
-
-8. propose to art people / find a space for an exhibit
-
-9. promo?
-  - animation of eyes opening and closing, inside eye is audio visualization stuff?
+9. propose to art people / find a space for an exhibit
