@@ -7,7 +7,7 @@ The goal is to investigate how one grapples with individual agency
 in a world dominated by technology; where the only source of information and orientation  
 comes from remote, mysterious, hidden computerized processes.  
   
-I reccomend watching the (eventually) included video demonstration before reading further.  
+I reccomend watching the following [demonstration video](https://vimeo.com/488284652) before continuing  
   
 By introducing a dissonant soundscape which is determined by the positions of people  
 in the SYNTH OF SELF space, auditory intrusions are in fact disruptions  
