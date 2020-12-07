@@ -1,4 +1,5 @@
 # *SYNTH_OF_SELF*
+![alt text](https://i.imgur.com/zgbGHEO.png)
 ``` 
 This project explores the enchanting properties of technological horror  
 in the form of auditory embodiment, powered by Computer Vision and Audio Synthesis software.  
