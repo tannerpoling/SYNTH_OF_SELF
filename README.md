@@ -9,7 +9,7 @@ in a world dominated by technology; where the only source of information and ori
 comes from remote, mysterious, hidden computerized processes.  
   
 I reccomend watching the following demonstration video before continuing:  
-https://vimeo.com/488284652  
+https://vimeo.com/488650795
 
   
 By introducing a dissonant soundscape which is determined by the positions of people  
