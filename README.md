@@ -2,7 +2,7 @@
 ![alt text](https://i.imgur.com/UbYZI32.png)
 ``` 
 Note: check the "harmony" branch for the main direction of this project.
-This project explores the enchanting properties of technological horror  
+This version explores the enchanting properties of technological horror  
 in the form of auditory embodiment, powered by Computer Vision and Audio Synthesis software.  
 
 The goal is to investigate how one grapples with individual agency  
