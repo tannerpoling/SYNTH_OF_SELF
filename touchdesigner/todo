@@ -1,0 +1,16 @@
+- stop trying to use touchDesigner's tcp/ip dat, it sucks
+	- write own client in python, takes in 2d array of synth freq and mod, parses
+		- use pickle.dumps and pickle.loads for encode and decode
+	- populate DAT table with values
+
+code to format table:
+n = op('tableDATname')
+n.setSize(3, 6)
+try:
+	n.replaceRow(0)
+	n.replaceRow(1)
+	n.replaceRow(2)
+except:
+	print('idk')
+n.replaceRow(0, [None, 'synth0', 'synth1', 'synth2', 'synth3', 'synth4'])
+n.replaceCol(0, [None, 'freq', 'mod'])
