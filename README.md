@@ -1,6 +1,6 @@
 # *SYNTH_OF_SELF*
 
-An interactive media project investigating the influences of sound and visuals  
+An interactive media project investigating the influence of sound and visuals  
 on the ways we navigate and relate to space.
 Participants' poisiton in a room are mapped to the pitch and modulation
 pf synthesizers.  
