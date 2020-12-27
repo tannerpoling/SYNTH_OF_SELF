@@ -1,7 +1,14 @@
-- stop trying to use touchDesigner's tcp/ip dat, it sucks
+- DONE stop trying to use touchDesigner's tcp/ip dat, it sucks
 	- write own client in python, takes in 2d array of synth freq and mod, parses
 		- use pickle.dumps and pickle.loads for encode and decode
 	- populate DAT table with values
+
+- define callback method in new server/client thing
+	- whenever server (touchdesigner) recieves ping, update DAT table
+
+- use DAT table to control things in touchdesigner
+	- easy start: center coordinates of a small circle
+	- python client -> server in td -> parameters of visuals
 
 code to format table:
 n = op('tableDATname')
