@@ -10,39 +10,11 @@ from plotmodule     import *
 # - integrate harmony detection -> draw something on screen
 # - improve background subtraction / foreground mask
 
-def rescale_frame(frame, percent=75):
-    width = int(frame.shape[1] * percent/ 100)
-    height = int(frame.shape[0] * percent/ 100)
-    dim = (width, height)
-    return cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
-
-
-
 def convertToRange(oldValue, oldMin, oldMax, newMin, newMax):
     oldRange = (oldMax - oldMin)
     newRange = (newMax - newMin)
     newValue = (((oldValue - oldMin) * newRange) / oldRange) + newMin
     return newValue
-
-# for fixing openCV y axis
-def fixCoord(val, max):
-    newVal = max - val
-    return newVal
-
-# get current state of array of synths
-def getStates(synths):
-    allFreq = [0] * len(synths)
-    allGain = [0] * len(synths)
-    allMod = [0] * len(synths)
-    for i in range(len(synths)):
-        allFreq[i], allGain[i], allMod[i] = synths[i].peekState()
-    return allFreq, allGain, allFreq
-
-def getFreqs(synths):
-    allFreq = [0] * len(synths)
-    for i in range(len(synths)):
-        allFreq[i] = synths[i].peekFreq()
-    return sorted(allFreq)
 
 def updateSynths(centroids):
     # TODO: use an ordered set of cetroids to achieve ordering of synths!!
@@ -114,7 +86,7 @@ downscale_factor = 10
 
 with AudioIO(True) as player:
 
-    #       SET UP ALL SYNTHS
+    #       SET UP ALL SYNTHS / VARIABLES
 
     synth1 = MySynth(minFreq, 0, 0)
     synth2 = MySynth(minFreq, 0, 0)
@@ -128,6 +100,8 @@ with AudioIO(True) as player:
     s4 = player.play(sinusoid(synth4.freqStream * Hz) * extraGain * 2 * (synth4.gainStream * 4 * (sinusoid(synth4.modStream) + 1)))
 
     all_players = [s1, s2, s3, s4]
+
+    client = tdClient('localhost', 7000)
 
     #       BEGIN VIDEO PROCESSING
 
@@ -186,11 +160,11 @@ with AudioIO(True) as player:
 
             im_with_keypoints, centroids = detectFrame_MOG(fgMask, im)
 
-
             for synth in all_synths:
                 synth.resetModify()
 
             updateSynths(sorted(centroids))
+            client.sendData(getStates(all_synths))
 
             if (len(centroids) > 2):
                 downscale_factor = 20

@@ -13,6 +13,10 @@ import numpy as np
 
 DEBUG = False
 
+# for fixing openCV y axis
+def fixCoord(val, max):
+    newVal = max - val
+    return newVal
 
 def getBlobDetect():
     # Set up blob detector
@@ -130,6 +134,11 @@ def getVidBounds(cap):
     vidHeight = int(cap.get(4))
     return vidWidth, vidHeight
 
+def rescale_frame(frame, percent=75):
+    width = int(frame.shape[1] * percent/ 100)
+    height = int(frame.shape[0] * percent/ 100)
+    dim = (width, height)
+    return cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
 
 
 # if __name__ == "__main__":
