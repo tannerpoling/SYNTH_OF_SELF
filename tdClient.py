@@ -12,10 +12,10 @@ class tdClient:
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.connect((hostname, port))
         confirm_msg = self.s.recv(1024)
-        print("confirmation: " + str(msg.decode("utf-8")))
+        print("confirmation: " + str(confirm_msg.decode("utf-8")))
         print("Client is connected to TouchDesigner!")
 
     # lazy method for sending data
-    def sendData(data):
+    def sendData(self, data):
         data_encode = pickle.dumps(data)
         self.s.send(data_encode)

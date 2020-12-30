@@ -3,7 +3,7 @@ from audiolazy import *
 import time
 import threading
 import synthIter as SI
-
+import numpy as np
 
 # TODO:
 
@@ -24,7 +24,7 @@ def getStates(synths):
     allEn = [0] * len(synths)
     for i in range(len(synths)):
         allFreq[i], allGain[i], allMod[i], allEn[i] = synths[i].peekState()
-    return np.stack((allFreq, allGain, allFreq))
+    return np.stack((allFreq, allGain, allFreq, allEn))
 
 def getFreqs(synths):
     allFreq = [0] * len(synths)
@@ -102,7 +102,7 @@ class MySynth:
         return self.freqIter.peek()
 
     def peekState(self):
-        current_freq = self.freqIter.peek()
-        current_gain = self.gainIter.peek()
-        current_mod  = self.modIter.peek()
-        return current_freq, current_mod, current_gain, self.modified
+        current_freq = int(self.freqIter.peek())
+        current_gain = int(self.gainIter.peek())
+        current_mod  = int(self.modIter.peek())
+        return current_freq, current_mod, current_gain, int(self.modified)

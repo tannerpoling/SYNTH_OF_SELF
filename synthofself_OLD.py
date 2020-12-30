@@ -5,17 +5,44 @@ from synthmodule    import *
 from vidmodule      import *
 from harmonymodule  import *
 from plotmodule     import *
-from tdClient       import *
 
 # TODO:
 # - integrate harmony detection -> draw something on screen
 # - improve background subtraction / foreground mask
+
+def rescale_frame(frame, percent=75):
+    width = int(frame.shape[1] * percent/ 100)
+    height = int(frame.shape[0] * percent/ 100)
+    dim = (width, height)
+    return cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
+
+
 
 def convertToRange(oldValue, oldMin, oldMax, newMin, newMax):
     oldRange = (oldMax - oldMin)
     newRange = (newMax - newMin)
     newValue = (((oldValue - oldMin) * newRange) / oldRange) + newMin
     return newValue
+
+# for fixing openCV y axis
+def fixCoord(val, max):
+    newVal = max - val
+    return newVal
+
+# get current state of array of synths
+def getStates(synths):
+    allFreq = [0] * len(synths)
+    allGain = [0] * len(synths)
+    allMod = [0] * len(synths)
+    for i in range(len(synths)):
+        allFreq[i], allGain[i], allMod[i] = synths[i].peekState()
+    return allFreq, allGain, allFreq
+
+def getFreqs(synths):
+    allFreq = [0] * len(synths)
+    for i in range(len(synths)):
+        allFreq[i] = synths[i].peekFreq()
+    return sorted(allFreq)
 
 def updateSynths(centroids):
     # TODO: use an ordered set of cetroids to achieve ordering of synths!!
@@ -81,13 +108,13 @@ bgSubtract = True
 heatmap_en = False
 DEBUG = True
 
-vidSource = 0 # 0 -> webcam, "/dev/video2" -> usb webcam
+vidSource = "/dev/video2" # 0 -> webcam, "/dev/video2" -> usb webcam
 
 downscale_factor = 10
 
 with AudioIO(True) as player:
 
-    #       SET UP ALL SYNTHS / VARIABLES
+    #       SET UP ALL SYNTHS
 
     synth1 = MySynth(minFreq, 0, 0)
     synth2 = MySynth(minFreq, 0, 0)
@@ -101,8 +128,6 @@ with AudioIO(True) as player:
     s4 = player.play(sinusoid(synth4.freqStream * Hz) * extraGain * 2 * (synth4.gainStream * 4 * (sinusoid(synth4.modStream) + 1)))
 
     all_players = [s1, s2, s3, s4]
-
-    client = tdClient('localhost', 7000)
 
     #       BEGIN VIDEO PROCESSING
 
@@ -125,12 +150,31 @@ with AudioIO(True) as player:
 
     print("Subtracting background, remove all objects from frame!")
     time.sleep(2)
-    backSub = cv2.createBackgroundSubtractorMOG2()
-    backSub.setDetectShadows(False)
+
+    testcount = 1
+
+    while(testcount != 150):
+        ret, im = cap.read()
+        cv2.imshow("TEST2", im)
+        cv2.waitKey(10)
+        testcount = testcount + 1
+
+    print("START 1")
+
+    backSub = cv2.createBackgroundSubtractorKNN()
+    backSub.setDetectShadows(True)
     # backSub.setHistory(1)
     ret, im = cap.read()
-    fgMask = backSub.apply(im, None, 1.0)
+    fgMask = backSub.apply(im, None, 0.0)
     time.sleep(2)
+
+    testcount = 1
+
+    # while(testcount != 40):
+    #     ret, im = cap.read()
+    #     cv2.imshow("TEST3", im)
+    #     cv2.waitKey(10)
+    #     testcount = testcount + 1
 
 
 
@@ -161,11 +205,11 @@ with AudioIO(True) as player:
 
             im_with_keypoints, centroids = detectFrame_MOG(fgMask, im)
 
+
             for synth in all_synths:
                 synth.resetModify()
 
             updateSynths(sorted(centroids))
-            client.sendData(getStates(all_synths))
 
             if (len(centroids) > 2):
                 downscale_factor = 20
