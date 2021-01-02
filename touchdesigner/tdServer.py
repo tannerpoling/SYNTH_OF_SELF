@@ -1,8 +1,12 @@
 import socket
 import pickle
 
+# address = 'localhost'
+address = '10.0.0.4'
+port = 7000
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(('localhost', 7000))
+s.bind((address, port))
 s.listen(5)
 
 while True:

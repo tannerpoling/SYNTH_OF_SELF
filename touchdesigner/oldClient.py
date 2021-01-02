@@ -1,8 +1,12 @@
 import socket
 import pickle
 
+# address = 'localhost'
+address = '10.0.0.4'
+port = 7000
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(('localhost', 7000))
+s.connect((address, port))
 # s.send("TEST\n".encode())
 # arr = ([0, 1, 2, 3, 4])
 # data_string = pickle.dumps(arr)
