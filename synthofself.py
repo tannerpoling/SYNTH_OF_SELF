@@ -5,7 +5,7 @@ from synthmodule    import *
 from vidmodule      import *
 from harmonymodule  import *
 from plotmodule     import *
-from tdClient       import *
+from touchdesigner.tdClient       import *
 
 # TODO:
 # - integrate harmony detection -> draw something on screen
@@ -102,7 +102,8 @@ with AudioIO(True) as player:
 
     all_players = [s1, s2, s3, s4]
 
-    client = tdClient('localhost', 7000)
+    # client = tdClient('localhost', 7000)
+    client = tdClient()
 
     #       BEGIN VIDEO PROCESSING
 
