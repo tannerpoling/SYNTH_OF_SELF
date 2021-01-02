@@ -17,6 +17,7 @@ freq2dB = phon2dB.iso226(intensity)
 maxGain = 402350.59784068936
 
 # get current state of array of synths
+# order: frequency, gain, mod, enable
 def getStates(synths):
     allFreq = [0] * len(synths)
     allGain = [0] * len(synths)
@@ -24,7 +25,7 @@ def getStates(synths):
     allEn = [0] * len(synths)
     for i in range(len(synths)):
         allFreq[i], allGain[i], allMod[i], allEn[i] = synths[i].peekState()
-    return np.stack((allFreq, allGain, allFreq, allEn))
+    return np.stack((allFreq, allGain, allMod, allEn))
 
 def getFreqs(synths):
     allFreq = [0] * len(synths)
