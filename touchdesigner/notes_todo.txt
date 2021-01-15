@@ -14,6 +14,13 @@ for windows, use command ipconfig to get ip. for linux just go to wifi settings 
 - get tdServer fully working
 	- DONE basic comms
 	- implement synchronization to avoid threading issues
+		- need to synchronize data input! TouchDesigner runs everything in threads, can't have undefined state
+		- execute DAT has a frameStart(frame) function! this is how you synchronize server input
+		- synth of self -> touchdesigner server
+			- data recieved by server DAT
+			- server DAT puts data into Queue
+			- dataCheck DAT gets info from server DAT's Queue every frame (in frameStart function)
+
 
 - use DAT table to control things in touchdesigner
 	- easy start: center coordinates of a small circle
