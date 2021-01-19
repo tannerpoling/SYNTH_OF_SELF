@@ -5,17 +5,12 @@ from synthmodule    import *
 from vidmodule      import *
 from harmonymodule  import *
 from plotmodule     import *
-from touchdesigner.tdClient       import *
+from touchdesigner.pyClient       import *
 
 # TODO:
 # - integrate harmony detection -> draw something on screen
 # - improve background subtraction / foreground mask
 
-def convertToRange(oldValue, oldMin, oldMax, newMin, newMax):
-    oldRange = (oldMax - oldMin)
-    newRange = (newMax - newMin)
-    newValue = (((oldValue - oldMin) * newRange) / oldRange) + newMin
-    return newValue
 
 def updateSynths(centroids):
     # TODO: use an ordered set of cetroids to achieve ordering of synths!!
@@ -37,14 +32,16 @@ def updateSynths(centroids):
 
             yToFreq = convertToRange(fixY, 0, vidHeight, minFreq, maxFreq)
             xToMod  = convertToRange(x, 0, vidWidth, minMod, maxMod)
-            if (index > 1 and count % modval == 0):
-                    all_synths[index].changeFreq(yToFreq / 2)
-                    all_synths[index].changeMod(xToMod / 2)
-            else:
-                all_synths[index].changeFreq(yToFreq)
-                all_synths[index].changeMod(xToMod)
+            # if (index > 1 and count % modval == 0):
+            #         all_synths[index].changeFreq(yToFreq / 2)
+            #         all_synths[index].changeMod(xToMod / 2)
+            # else:
+            #     all_synths[index].changeFreq(yToFreq)
+            #     all_synths[index].changeMod(xToMod)
+            all_synths[index].changeFreq(yToFreq)
+            all_synths[index].changeMod(xToMod)
 
-            count = count + 1
+            # count = count + 1
 
     # check harmony and update gain of harmonious synths
 
@@ -166,19 +163,23 @@ with AudioIO(True) as player:
                 synth.resetModify()
 
             updateSynths(sorted(centroids))
+            if DEBUG:
+                states = getStates(all_synths)
+                print(str(states))
+
             client.sendData(getStates(all_synths))
 
-            if (len(centroids) > 2):
-                downscale_factor = 20
-            else :
-                downscale_factor = 10
+            # if (len(centroids) > 2):
+            #     downscale_factor = 20
+            # else :
+            #     downscale_factor = 10
 
             if heatmap_en:
                 updateHeatmap(heatmapData)
 
-            im = rescale_frame(im, percent = (100 / downscale_factor))
-            im = rescale_frame(im, percent = (100 * downscale_factor))
-            im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+            # im = rescale_frame(im, percent = (100 / downscale_factor))
+            # im = rescale_frame(im, percent = (100 * downscale_factor))
+            # im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
 
 
             cv2.imshow("Keypoints", im)

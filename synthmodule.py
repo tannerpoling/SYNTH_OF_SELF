@@ -7,7 +7,11 @@ import numpy as np
 
 # TODO:
 
-
+def convertToRange(oldValue, oldMin, oldMax, newMin, newMax):
+    oldRange = (oldMax - oldMin)
+    newRange = (newMax - newMin)
+    newValue = (((oldValue - oldMin) * newRange) / oldRange) + newMin
+    return newValue
 
 def dB2magnitude(logpower):
   return 10 ** (logpower / 20)
@@ -104,6 +108,8 @@ class MySynth:
 
     def peekState(self):
         current_freq = int(self.freqIter.peek())
-        current_gain = int(self.gainIter.peek())
-        current_mod  = int(self.modIter.peek())
+        current_gain = int((self.gainIter.peek()) * 100000)
+        print("this synth gain = " + str(current_gain))
+        current_mod  = int((self.modIter.peek()) * 100000)
+        print("this synth mod = " + str(current_mod))
         return current_freq, current_mod, current_gain, int(self.modified)
