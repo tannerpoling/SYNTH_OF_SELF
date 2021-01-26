@@ -11,9 +11,9 @@ for windows, use command ipconfig to get ip. for linux just go to wifi settings 
 - DONE (?) define callback method in new server/client thing
 	- whenever server (touchdesigner) recieves ping, update DAT table
 
-- get tdServer fully working
+- DONE get tdServer fully working
 	- DONE basic comms
-	- implement synchronization to avoid threading issues
+	- DONE implement synchronization to avoid threading issues
 		- need to synchronize data input! TouchDesigner runs everything in threads, can't have undefined state
 		- execute DAT has a frameStart(frame) function! this is how you synchronize server input
 		- synth of self -> touchdesigner server
@@ -23,7 +23,9 @@ for windows, use command ipconfig to get ip. for linux just go to wifi settings 
 
 
 - use DAT table to control things in touchdesigner
+	- DONE convert data in to CHOPs that can control stuff
 	- easy start: center coordinates of a small circle
+	- try some geometry stuff with it
 	- python client -> server in td -> parameters of visuals
 
 code to format table:
