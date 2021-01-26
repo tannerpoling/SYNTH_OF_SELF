@@ -52,15 +52,21 @@
   - (maybe) trying smoother pitch transitions
     - syncing image processing with making ramps to smoothly transition pitch
       - need to enforce time delay between frames being processed
+      
+5b. Improve sounds
+  - add harmonics to synths to make them mroe pleasant to listen to
+    - could look up harmonics of common instruments, voices etc
+    - unsure whether to make more synths in audiolazy or just pipe audio thru some sort of filter
  
 6. Harmony detection (for harmony-based)
   - audiolazy has functions to convert frequencies to scientific pitch notations
-  - could be combined with packages that go from pitch notation -> chords!
+  - could be combined with packages that go from pitch notation -> chords
   
 7. Visuals (harmony-based)
-  - ideally use TouchDesigner
-  - think of a topographic map? people in room become "hills"
-  - harmony state used as a flag to enable more... illustrious visuals?
+  - DONE TouchDesigner communication with synth of self
+  - make some sort of basic viz
+    - think of a topographic map? people in room become "hills"
+    - harmony state used as a flag to enable more... illustrious visuals?
 
 7. get feedback (for harmony-based)
   - dxarts profs
