@@ -54,7 +54,7 @@
       - need to enforce time delay between frames being processed
       
 5b. Improve sounds
-  - add harmonics to synths to make them mroe pleasant to listen to
+  - add harmonics to synths to make them more pleasant to listen to
     - could look up harmonics of common instruments, voices etc
     - unsure whether to make more synths in audiolazy or just pipe audio thru some sort of filter
  
