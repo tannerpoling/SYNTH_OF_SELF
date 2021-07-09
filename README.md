@@ -4,7 +4,7 @@ An interactive media project investigating the influence of sound and visuals up
 What this software does is map participants' poisiton in a room to the pitch and modulation of synthesizers, which then drive visuals generated using TouchDesigner.   
 
 
-This was inspired by curiosities into how this would impact the way people interact with their surroundings and fellow participants; do we tend towards harmony? How might this effect vary with volume, or permanent objects establishing a "base tone"?  
+This was inspired by curiosities into how audio might impact the way people interact with their surroundings and fellow participants; do we tend towards harmony? How might this effect vary with volume, or permanent objects establishing a "base tone"?  
 Do people have a tendency to form chords in their arrangement? At what point is this influence considered conscious / unconscious?
 
 Features that are currently working:  
