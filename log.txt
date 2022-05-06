@@ -1,0 +1,22 @@
+2022 - 05 - 06
+looking at fixing things up to work on this project some more
+1. get things running on one computer
+- need to be able to install libraries on computer
+  - 2 options. either run everything in touchdesigner or have separate python process
+    - everything in touch pros:
+      - no more need for tcp/ip shenanigans
+      - *seems* easier to manage libraries in touch... all dependencies in one place
+    - cons: 
+      - a fair bit of restructuring
+      - touch is largely single-threaded... complex opencv processing will slow down all visuals
+    - separate python process pros:
+      - literally just need to get libraries running on windows, and update the tcp/ip info.
+      - probably more robust to touchdeisgner updates
+    - cons:
+      - getting opencv running on windows has been impressively hard in the past
+
+- just get python packages running on windows
+  - powershell doesn't recognize python... try cygwin 
+  https://github.com/numpy/numpy/issues/14871
+  https://pyimagesearch.com/2022/04/25/installing-opencv-on-windows/
+  
